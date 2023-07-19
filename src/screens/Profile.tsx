@@ -46,17 +46,18 @@ export function Profile() {
         if (photoInfo.exists && photoInfo.size / 1024 / 1024 > 5)
           return toast.show({
             title: "Essa imagem é muito grande. Escolha uma de até 5MB.",
-            placement: 'top',
-            bgColor: 'red.500'
+            placement: "top",
+            bgColor: "red.500",
           });
 
         setUserPhoto(photo.assets[0].uri);
       }
     } catch (error) {
       toast.show({
-        title: "Não foi possível alterar sua foto. Tente novamente em instantes.",
-        placement: 'top',
-        bgColor: 'red.500'
+        title:
+          "Não foi possível alterar sua foto. Tente novamente em instantes.",
+        placement: "top",
+        bgColor: "red.500",
       });
       console.log(error);
     } finally {
@@ -104,6 +105,7 @@ export function Profile() {
           <Heading
             color="gray.200"
             fontSize="md"
+            fontFamily="heading"
             mb={2}
             mt={12}
             alignSelf="flex-start"

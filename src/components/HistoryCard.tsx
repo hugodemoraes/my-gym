@@ -21,6 +21,7 @@ export function HistoryCard({ title, description }: Props) {
         <Heading
           color="white"
           fontSize="md"
+          fontFamily="heading"
           textTransform="capitalize"
           numberOfLines={1}
         >

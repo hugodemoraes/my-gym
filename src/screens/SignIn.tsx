@@ -9,6 +9,10 @@ import {
   Text,
   VStack,
 } from "native-base";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import { signInSchema } from "@schemas/signIn";
 
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 
@@ -18,12 +22,26 @@ import BgImg from "@assets/background.png";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 
+type FormDataProps = {
+  email: string;
+  password: string;
+};
+
 export function SignIn() {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormDataProps>({
+    resolver: yupResolver(signInSchema),
+  });
   const { navigate } = useNavigation<AuthNavigatorRoutesProps>();
 
   function handleNewAccount() {
     navigate("signUp");
   }
+
+  function handleSignIn(data: FormDataProps) {}
 
   return (
     <KeyboardAvoidingView
@@ -55,14 +73,37 @@ export function SignIn() {
               Acesse sua conta
             </Heading>
 
-            <Input
-              placeholder="E-mail"
-              keyboardType="email-address"
-              autoCapitalize="none"
+            <Controller
+              control={control}
+              name="email"
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  placeholder="E-mail"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  value={value}
+                  onChangeText={onChange}
+                  errorMessage={errors.email?.message}
+                />
+              )}
             />
-            <Input placeholder="Senha" secureTextEntry />
+            <Controller
+              control={control}
+              name="password"
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  placeholder="Senha"
+                  secureTextEntry
+                  value={value}
+                  onChangeText={onChange}
+                  errorMessage={errors.password?.message}
+                  onSubmitEditing={handleSubmit(handleSignIn)}
+                  returnKeyType="send"
+                />
+              )}
+            />
 
-            <Button title="Acessar" />
+            <Button title="Acessar" onPress={handleSubmit(handleSignIn)} />
           </Center>
 
           <Center mt={24}>
